@@ -1,14 +1,16 @@
 <?php
-    require_once 'GetParam.php';
-    $email = GetParam ('email');
-    if (!empty($email))
+    require_once ('include/common.inc.php');
+    define(ERR_NO_NAME)
+    
+    $surveyInfo = GetSurveyFromRequest();
+    $saver = SaveSurveyToFile($surveyInfo);
+    if ($saver == ERR_NO_NAME)
     {
-        $f = fopen("C:\\data\\" . $email . ".txt", "w");
-        fwrite($f, serialize($_GET));
-        fclose($f);
-        echo 'Your data is successfully saved!';
+        echo 'There is no parameter email.';
     }
     else
     {
-        echo 'Email address is necessary!';
+        echo($saver !== false)
+        ? 'Data saved: ' . GetSurveyFilePath($surveyInfo['email']) . ' (' . $saver . ' áàéò).'
+        : "Can't save!";
     }

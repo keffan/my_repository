@@ -1,36 +1,23 @@
 <?php
-    require_once 'GetParam.php';
-    $email = GetParam('email');
-    if (!empty($email))
+    define('OK', 'ok');
+    require_once ('include/common.inc.php');
+    
+    header('Content-Type: text/plain');
+    $filename = GetSurveyFilename('email');
+    $error = OK;
+    $surveyInfo = GetSurveyFromFile($filename, $error);
+    if ($error == OK)
     {
-        if (file_exists("C:\\data\\" . $email . ".txt"))
-        {
-            $f = fopen("C:\\data\\" . $email . ".txt", "r");
-            $user_data = unserialize(fgets($f));
-            if (isset($user_data['first_name']))
-            {
-                echo 'First name: ' . $user_data['first_name'] . '<br>';
-            }
-            if (isset($user_data['last_name']))
-            {
-                echo 'Last name: ' . $user_data['last_name'] . '<br>';
-            }
-            if (isset($user_data['email']))
-            {
-                echo 'Email: ' . $user_data['email'] . '<br>';
-            }
-            if (isset($user_data['age']))
-            {
-                echo 'Age: ' . $user_data['age'] . '<br>';
-            }
-            fclose($f);
-        }		
-        else
-        {
-            echo 'File not found!';
-        }	
+        PrintSurvey($surveyInfo);
     }
     else
     {
-        echo 'Email is necessary!';
+        if ($error == ERR_NO_FILE)
+        {
+            echo 'File ' . $filename . '.txt not exist';
+        }
+        if ($error == ERR_NO_ACCESS_TO_FILE)
+        {
+            echo 'No access to file';
+        }
     }
