@@ -14,7 +14,7 @@ CREATE TABLE customer
     first_name VARCHAR(20),
     last_name VARCHAR(20),
     passport_code VARCHAR(20),
-    registration_dtae DATE
+    registration_date DATE
 );
 
 CREATE TABLE offer
