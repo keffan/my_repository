@@ -11,7 +11,7 @@
     {
         if ($files['filename']['error'] > 0)
         {
-            return $messages[$files['filename']['error']];
+            return $files['filename']['error'];
         }    
         $fName = GetFName($files);
         return (@move_uploaded_file($fName[0], $fName[1])) ? 0 : 9;
