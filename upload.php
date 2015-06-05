@@ -1,7 +1,7 @@
 <?php
     require_once('include/common.inc.php');
         
-    if (isset($_FILES))
+    if (!empty($_FILES))
     {
         $error = UploadFile($_FILES);
         $messages = array
@@ -19,3 +19,19 @@
         echo '<meta charset="utf-8">';
         echo $messages[$error];
     }
+    
+    $files = scandir(UPLOAD_DIR);
+    $images = array();
+    foreach ($files as $filename)
+    {
+        if (isImage($filename))
+        {
+            $images[] = UPLOAD_DIR . $filename;
+        }
+    } 
+    
+    $vars = array
+    (
+        'images' => $images
+    );
+    echo buildPage('savefiles.tpl', $vars);
